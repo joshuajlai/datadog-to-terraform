@@ -15,6 +15,7 @@ const DASHBOARD = {
       convertFromDefinition(TEMPLATE_VARIABLE_PRESET, k1, v1)
     ),
   url: (v) => assignmentString("url", v),
+  tags: (v) => assignmentString("tags", v),
 };
 
 const WIDGET = {
@@ -118,6 +119,7 @@ const WIDGET_DEFINTION = {
   vertical_align: (_) => "", // 2.23.0 not described in docs, occurs in widget.note_definition json
   has_padding: (_) => "", // 2.23.0 not described in docs, occurs in widget.note_definition json
   logset: (_) => "", // 2.23.0 deprecated, see docs for widget.log_stream_definition
+  show_title: (v) => assignmentString("show_title", v),
 };
 
 const REQUEST = {

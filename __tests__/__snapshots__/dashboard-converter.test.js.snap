@@ -7,6 +7,7 @@ description = \\"Description\\"
 widget {
 group_definition {
 title = \\"ECS\\"
+show_title = true
 layout_type = \\"ordered\\"
 widget {
 timeseries_definition {
@@ -64,6 +65,7 @@ layout_type = \\"ordered\\"
 is_read_only = true
 notify_list = []
 reflow_type = \\"auto\\"
+tags = [\\"my_first_tag\\",\\"my_second_tag\\"]
 }"
 `;
 

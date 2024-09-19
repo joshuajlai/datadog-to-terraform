@@ -6,6 +6,7 @@
       "id": 6094222782053076,
       "definition": {
         "title": "ECS",
+        "show_title": true,
         "type": "group",
         "layout_type": "ordered",
         "widgets": [
@@ -62,5 +63,9 @@
   "is_read_only": true,
   "notify_list": [],
   "reflow_type": "auto",
-  "id": "dru-pjw-8zd"
+  "id": "dru-pjw-8zd",
+  "tags": [
+    "my_first_tag",
+    "my_second_tag"
+  ]
 }
