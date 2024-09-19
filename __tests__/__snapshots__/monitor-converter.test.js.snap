@@ -15,12 +15,14 @@ Some other info..
 @all 
 EOF
 tags = [\\"team-cpu\\"]
-notify_audit = false
-locked = true
-timeout_h = 0
+escalation_message = \\"\\"
+evaluation_delay = 70
 groupby_simple_monitor = true
+include_tags = true
+locked = true
 new_host_delay = 300
-require_full_window = true
+no_data_timeframe = 10
+notify_audit = false
 notify_no_data = true
 renotify_interval = 0
 new_group_delay = 60
@@ -29,6 +31,12 @@ escalation_message = \\"\\"
 no_data_timeframe = 10
 include_tags = true
 on_missing_data = \\"default\\"
+require_full_window = true
+monitor_threshold_windows {
+recovery_window = \\"last_15m\\"
+trigger_window = \\"last_15m\\"
+}
+>>>>>>> 61-datadog-2021-07-16
 monitor_thresholds {
 critical = 1
 critical_recovery = 0
@@ -38,6 +46,7 @@ trigger_window = \\"last_15m\\"
 recovery_window = \\"last_15m\\"
 }
 renotify_statuses = [\\"alert\\"]
+timeout_h = 0
 priority = 2
 restricted_roles = [\\"5b647eb8-de36-11ed-aacf-da7ad0900002\\"]
 }"
