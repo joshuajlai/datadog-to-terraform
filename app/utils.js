@@ -33,12 +33,24 @@ export function block(name, contents, converter) {
   return `\n${name} {${map(contents, converter)}\n}`;
 }
 
+export function nestedBlock(name, nested_name, contents, converter) {
+  return `\n${name} {${block(nested_name, contents, converter)}\n}`
+}
+
 export function blockList(array, blockName, contentConverter) {
   let result = "";
   array.forEach((elem) => {
     result += block(blockName, elem, contentConverter);
   });
   return result;
+}
+
+export function customList(array, converter) {
+  let result = "";
+  array.forEach((elem) => {
+    result += converter(elem)
+  });
+  return result
 }
 
 export function convertFromDefinition(definitionSet, k, v) {
