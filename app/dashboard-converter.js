@@ -1,4 +1,4 @@
-import { assignmentString, block, blockList, convertFromDefinition } from "./utils.js";
+import { assignmentString, block, blockList, convertFromDefinition, customList, nestedBlock } from "./utils.js";
 
 const DASHBOARD = {
   layout_type: (v) => assignmentString("layout_type", v),
@@ -149,20 +149,34 @@ const REQUEST = {
   limit: (v) => assignmentString("limit", v),
   order: (v) => assignmentString("order", v),
   fill: (v) => block("fill", v, assignmentString),
-  response_format: (v) => assignmentString("response_format", v),
+  response_format: (v) => '', // unsupported in terraform provider
   formulas: (list) =>
     blockList(list, "formula", (k, v) => convertFromDefinition(FORMULA, k, v)),
-  queries: (list) => blockList(list, "query", (k, v) => convertFromDefinition(QUERY, k, v)),
+  queries: (list) => customList(list, createQueryBlock),
+  sort: (v) => '', // unsupported in terraform provider
 };
 
 const FORMULA = {
   formula: (v) => assignmentString("formula_expression", v),
+  cell_display_mode: (v) => assignmentString("cell_display_mode", v),
+  alias: (v) => assignmentString("alias", v),
+  number_format: (v) => block("number_format", v, (k, v) => convertFromDefinition(NUMBER_FORMAT, k, v)),
 };
+
+function createQueryBlock(query) {
+  let nestedBlockName
+  if (query["data_source"] == "metrics") {
+    nestedBlockName = "metric_query"
+  }
+
+  return nestedBlock("query", nestedBlockName, query, (k, v) => convertFromDefinition(QUERY, k, v))
+}
 
 const QUERY = {
   name: (v) => assignmentString("name", v),
   data_source: (v) => assignmentString("data_source", v),
   query: (v) => assignmentString("query", v),
+  aggregator: (v) => assignmentString("aggregator", v),
 };
 
 const LOG_QUERY = {
@@ -181,6 +195,23 @@ const GROUP_BY = {
   sort: (v) => block("sort_query", v, assignmentString),
   sort_query: (v) => block("sort_query", v, assignmentString),
 };
+
+const NUMBER_FORMAT = {
+  unit: (v) => convertUnit(v),
+  precision: (v) => "", // unsupported in provider
+}
+
+const UNIT = {
+  canonical: (v) => block("canonical", v, assignmentString)
+}
+
+function convertUnit(v) {
+  let properties = {}
+  if (v["type"] == "canonical_unit") {
+    properties["canonical"] = {"unit_name": v["unit_name"]}
+  }
+  return block("unit", properties, (k, v) => convertFromDefinition(UNIT, k, v))
+}
 
 function convertSort(v) {
   return typeof v === "string"
