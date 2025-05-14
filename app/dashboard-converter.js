@@ -161,6 +161,7 @@ const FORMULA = {
   cell_display_mode: (v) => assignmentString("cell_display_mode", v),
   alias: (v) => assignmentString("alias", v),
   number_format: (v) => block("number_format", v, (k, v) => convertFromDefinition(NUMBER_FORMAT, k, v)),
+  style: (v) => block("style", v, assignmentString)
 };
 
 function createQueryBlock(query) {
